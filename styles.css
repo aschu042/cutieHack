@@ -1,0 +1,82 @@
+/* Basic reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #0C0953;  /* Dark blue background */
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #fff;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.6);
+    position: relative;  /* Ensure that dots are positioned relative to the body */
+}
+
+
+/* Calculator Container */
+.calculator-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    position: relative; /* Make sure the calculator stays on top */
+}
+
+/* Calculator Styling */
+.calculator {
+    //background: rgba(0, 0, 0, 0.7);
+    //padding: 30px;
+   // border-radius: 10px;
+   // box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+    width: 550px;  /* Set width of calculator */
+    position: relative; /* Keep calculator above spaceship */
+    z-index: 1; /* Ensure the calculator is above the spaceship */
+}
+
+.display {
+    background: #151B54;
+    color: #fff;
+    text-align: right;
+    padding: 20px;
+    font-size: 2em;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    min-height: 50px;
+    line-height: 50px;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 50px;
+}
+
+.button {
+    background: #4863A0;
+    color: white;
+    font-size: 1em;
+    border: none;
+    padding: 20px;
+    Clip-path: polygon(50% 0%, 61% 35%, 98%35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+.button:hover {
+    background-color: #728FCE;
+    transform: scale(1.1);
+}
+
+.button:active {
+    background-color: #555;
+}
+
+button:focus {
+    outline: none;
+}
