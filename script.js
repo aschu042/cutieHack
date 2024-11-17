@@ -15,48 +15,42 @@ function clearDisplay() {
 function calculateResult() {
     try {
         let expression = currentInput;
-        let firstOperand = 0;
-        let operator = '';
-        let secondOperand = 0;
 
-        // Handling complex operations
-        if (expression.includes('+')) {
-            [firstOperand, secondOperand] = expression.split('+').map(Number);
-            result = firstOperand + secondOperand;
-        } else if (expression.includes('-')) {
-            [firstOperand, secondOperand] = expression.split('-').map(Number);
-            result = firstOperand - secondOperand;
-        } else if (expression.includes('*')) {
-            [firstOperand, secondOperand] = expression.split('*').map(Number);
-            result = firstOperand * secondOperand;
-        } else if (expression.includes('/')) {
-            [firstOperand, secondOperand] = expression.split('/').map(Number);
-            result = firstOperand / secondOperand;
-        } else if (expression.includes('^')) {
-            [firstOperand, secondOperand] = expression.split('^').map(Number);
-            result = Math.pow(firstOperand, secondOperand);
-        } else if (expression.includes('ln')) {
-            result = Math.log(parseFloat(expression.replace('ln', '')));
-        } else if (expression.includes('log')) {
-            result = Math.log10(parseFloat(expression.replace('log', '')));
-        } else if (expression.includes('sin')) {
-            result = Math.sin(parseFloat(expression.replace('sin', '')));
-        } else if (expression.includes('cos')) {
-            result = Math.cos(parseFloat(expression.replace('cos', '')));
-        } else if (expression.includes('tan')) {
-            result = Math.tan(parseFloat(expression.replace('tan', '')));
-        } else if (expression.includes('sec')) {
-            result = 1 / Math.cos(parseFloat(expression.replace('sec', '')));
-        } else if (expression.includes('csc')) {
-            result = 1 / Math.sin(parseFloat(expression.replace('csc', '')));
-        } else if (expression.includes('cot')) {
-            result = 1 / Math.tan(parseFloat(expression.replace('cot', '')));
-        }
+        // Handle complex operations like sin, cos, etc.
+        expression = expression.replace(/ln/g, 'Math.log');   // Replace ln with Math.log
+        expression = expression.replace(/log/g, 'Math.log10'); // Replace log with Math.log10
+        expression = expression.replace(/sin/g, 'Math.sin');   // Replace sin with Math.sin
+        expression = expression.replace(/cos/g, 'Math.cos');   // Replace cos with Math.cos
+        expression = expression.replace(/tan/g, 'Math.tan');   // Replace tan with Math.tan
+        expression = expression.replace(/sec/g, '1/Math.cos'); // Replace sec with 1/Math.cos
+        expression = expression.replace(/csc/g, '1/Math.sin'); // Replace csc with 1/Math.sin
+        expression = expression.replace(/cot/g, '1/Math.tan'); // Replace cot with 1/Math.tan
+	expression = expression.replace(/(\d+)\^(\d+)/g, 'Math.pow($1, $2)');
 
+        // Use eval to calculate the result of the expression
+        result = eval(expression);
+
+        // Display the result
+	saveHistory(`${currentInput} = ${result}`);
         display.innerText = result;
         currentInput = result.toString();  // Store the result for further calculations
     } catch (error) {
         display.innerText = 'Error';
         currentInput = '';
     }
+}
+
+function saveHistory(entry) {
+    let historyItem = document.createElement('li');
+    historyItem.textContent = entry;
+    historyItem.onclick = function() {
+        display.innerText = entry.split('=')[0].trim();
+        currentInput = display.innerText;
+    };
+    historyList.insertBefore(historyItem, historyList.firstChild);  // Insert at the top
+}
+
+function clearHistory() {
+    const historyList = document.getElementById('historyList');
+    historyList.innerHTML = ''; // Clear all history items
 }
